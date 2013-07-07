@@ -1,6 +1,201 @@
 <!DOCTYPE html>
 <html>
-</body>
+<head>
+<script>
+/*
+	Functions for displaying current time
+*/
+function startTime()
+{
+	var today=new Date();
+	var h=today.getHours();
+	var m=today.getMinutes();
+	var s=today.getSeconds();
+	// add a zero in front of numbers<10
+	h=checkTime(h);
+	m=checkTime(m);
+	s=checkTime(s);
+	document.getElementById('txt1').innerHTML=h+":"+m+":"+s;
+	ttt=setTimeout(function(){startTime()},500);
+}
+function checkTime(i)
+{
+if (i<10)
+  {
+  i="0" + i;
+  }
+return i;
+}
+
+/*
+	Functions for timer/stopwatch
+*/
+var c=0;
+var t;
+var timer_is_on=0;
+function timedCount()
+{
+	document.getElementById('txt2').value=c;
+	c=c+1;
+	t=setTimeout(function(){timedCount()},1000);
+}
+function doTimer()
+{
+if (!timer_is_on)
+  {
+	  timer_is_on=1;
+	  timedCount();
+  }
+}
+function stopCount()
+{
+clearTimeout(t);
+timer_is_on=0;
+}
+function restartCount()
+{
+clearTimeout(t);
+timer_is_on=0;
+c=0;
+document.getElementById("txt2").value=0;
+}
+
+/*
+	Functions for converting temperature between C/F
+*/
+function convert(degree)
+{
+	if (degree=="C")
+	 {
+	 F=document.getElementById("c").value * 9 / 5 + 32;
+	 document.getElementById("f").value=Math.round(F);
+	 }
+	else	
+	 {
+	 C=(document.getElementById("f").value -32) * 5 / 9;
+	 document.getElementById("c").value=Math.round(C);
+	 }
+}
+
+/*
+	Functions for graphic calculator
+*/
+function pad(anystr) {
+        document.calc.shownum.value += anystr
+}
+
+function calcit() {
+        document.calc.shownum.value = eval(document.calc.shownum.value)
+}
+
+function clearit() {
+        document.calc.shownum.value = ""
+}
+
+function backspace() {
+        curvalue = document.calc.shownum.value
+        curlength = curvalue.length
+        curvalue = curvalue.substring(0,curlength-1)
+        document.calc.shownum.value = curvalue
+}
+</script>
+</head>
+
+<body>
+
+<!-- Current Time! -->
+<body onload="startTime()">
+<h2>Current Time <div id="txt1"></div></h2>
+
+<!-- Temperature Converter! -->
+<p></p><h2>Temperature Converter - Insert a number into one of the input fields below:</h2>
+<form>
+<input id="c" name="c" onkeyup="convert('C')"> degrees Celsius equals <input id="f" name="f" onkeyup="convert('F')"> degrees Fahrenheit 
+</form>
+
+<p>Note that the <b>Math.round()</b> method is used, so that the result will be returned as an integer.</p>
+
+<p></p><h2>Timer</h2>
+<form>
+	<input type="button" value="Start/continue count!" onclick="doTimer()" />
+	<input type="text" id="txt2" />
+	<input type="button" value="Stop count!" onclick="stopCount()" />
+	<input type="button" value="Stop & reset count!" onclick="restartCount()" />
+</form>
+<p>
+Click on the "Start count!" button above to start the timer. The input field will count forever, starting at 0. Click on the "Stop count!" button to stop the counting. Click on the "Start count!" button to start the timer again.
+</p>
+
+<!-- Graphic Calculator! -->
+<p></p><h2>Graphic Calculator</h2>
+<map NAME="calcmap">
+<!-- #$-:Image Map file created by Map THIS! -->
+<!-- #$-:Map THIS! free image map editor by Todd C. Wilson -->
+<!-- #$-:Please do not edit lines starting with "#$" -->
+<!-- #$VERSION:1.20 --><!-- #$AUTHOR:Alan Simpson -->
+<!-- #$DATE:Sat Mar 16 10:56:04 1996 -->
+<!-- #$PATH:C:\JavaScript\ -->
+<!-- #$GIF:calcbttn.gif -->
+<area SHAPE="RECT" COORDS="10,80,40,106" HREF="javascript:pad('1')">
+<area SHAPE="RECT" COORDS="49,80,78,106" HREF="javascript:pad('2')">
+<area SHAPE="RECT" COORDS="88,79,117,106" HREF="javascript:pad('3')">
+<area SHAPE="RECT" COORDS="128,81,158,105" HREF="javascript:pad('+')">
+<area SHAPE="RECT" COORDS="11,115,39,141" HREF="javascript:pad("0")">
+<area SHAPE="RECT" COORDS="49,115,78,142" HREF="javascript:pad('.')">
+<area SHAPE="RECT" COORDS="89,116,119,141" HREF="javascript:calcit()">
+<area SHAPE="RECT" COORDS="128,116,158,142" HREF="javascript:pad('-')">
+<area SHAPE="RECT" COORDS="167,80,194,105" HREF="javascript:pad('*')">
+<area SHAPE="RECT" COORDS="167,116,196,141" HREF="javascript:pad('/')">
+<area SHAPE="RECT" COORDS="11,43,39,71" HREF="javascript:pad('4')">
+<area SHAPE="RECT" COORDS="50,45,77,69" HREF="javascript:pad('5')">
+<area SHAPE="RECT" COORDS="88,44,117,71" HREF="javascript:pad('6')">
+<area SHAPE="RECT" COORDS="127,44,158,71" HREF="javascript:pad(')')">
+<area SHAPE="RECT" COORDS="165,43,196,70" HREF="javascript:backspace()">
+<area SHAPE="RECT" COORDS="10,7,40,33" HREF="javascript:pad('7')">
+<area SHAPE="RECT" COORDS="48,7,81,35" HREF="javascript:pad('8')">
+<area SHAPE="RECT" COORDS="87,7,117,34" HREF="javascript:pad('9')">
+<area SHAPE="RECT" COORDS="127,7,156,34" HREF="javascript:pad('(')">
+<area SHAPE="RECT" COORDS="166,7,195,35" HREF="javascript:clearit()">
+</map>
+<form NAME="calc">
+   <table BORDER="1" BGCOLOR="#C0C0C0">
+      <tr>
+         <td WIDTH="213"><center><p>
+            <input NAME="shownum" VALUE MAXLENGTH="25" SIZE="25"></p></center>
+         </td>
+      </tr>
+      <tr>
+         <td WIDTH="213">
+            <img USEMAP="#calcmap" SRC="calcbttn.gif" BORDER="0" HEIGHT="153" WIDTH="206"></p></center>
+         </td>
+      </tr>
+   </table>
+</form>
+
+<!-- Calculator! -->
+<p></p><h2>Calculator</h2>
+<FORM NAME="Calc">
+<TABLE BORDER=4>
+<TR>
+<TD>
+<INPUT TYPE="text"   NAME="Input" Size="16">
+<br>
+</TD>
+</TR>
+<TR>
+<TD>
+<INPUT TYPE="button" NAME="one"   VALUE="  1  " OnClick="Calc.Input.value += '1'"><INPUT TYPE="button" NAME="two"   VALUE="  2  " OnCLick="Calc.Input.value += '2'"><INPUT TYPE="button" NAME="three" VALUE="  3  " OnClick="Calc.Input.value += '3'"><INPUT TYPE="button" NAME="plus"  VALUE="  +  " OnClick="Calc.Input.value += ' + '">
+<br>
+<INPUT TYPE="button" NAME="four"  VALUE="  4  " OnClick="Calc.Input.value += '4'"><INPUT TYPE="button" NAME="five"  VALUE="  5  " OnCLick="Calc.Input.value += '5'"><INPUT TYPE="button" NAME="six"   VALUE="  6  " OnClick="Calc.Input.value += '6'"><INPUT TYPE="button" NAME="minus" VALUE="  -  " OnClick="Calc.Input.value += ' - '">
+<br>
+<INPUT TYPE="button" NAME="seven" VALUE="  7  " OnClick="Calc.Input.value += '7'"><INPUT TYPE="button" NAME="eight" VALUE="  8  " OnCLick="Calc.Input.value += '8'"><INPUT TYPE="button" NAME="nine"  VALUE="  9  " OnClick="Calc.Input.value += '9'"><INPUT TYPE="button" NAME="times" VALUE="  x  " OnClick="Calc.Input.value += ' * '">
+<br>
+<INPUT TYPE="button" NAME="clear" VALUE="  c  " OnClick="Calc.Input.value = ''"><INPUT TYPE="button" NAME="zero"  VALUE="  0  " OnClick="Calc.Input.value += '0'"><INPUT TYPE="button" NAME="DoIt"  VALUE="  =  " OnClick="Calc.Input.value = eval(Calc.Input.value)"><INPUT TYPE="button" NAME="div"   VALUE="  /  " OnClick="Calc.Input.value += ' / '">
+<br>
+</TD>
+</TR>
+</TABLE>
+</FORM>
 
 Hello World from index.html<br>
 Test1<br>
