@@ -3,8 +3,7 @@ var express = require('express');
 var app = express.createServer(express.logger());
 
 app.get('/', function(request, response) {
-  response.send('Hello World! Here we come! And again. And again. OMG! Not again!!!');
-  response.send('Before starting the crowdfunded site!!!');
+  response.send('Hello World! Here we come! And again. And again. OMG! Not again!!! Before starting the crowdfunded site!!!');
 });
 
 var port = process.env.PORT || 5000;
